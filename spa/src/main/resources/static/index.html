@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Microservices Demo</title>
+    <link href="stylesheet.css" rel="stylesheet"/>
+
+</head>
+<body>
+<header>
+    <h1>SPA OAuth2 PKCE Client</h1>
+    <nav id="headerNav">
+            <button class="button" id="loginButton">Login</button>
+            <button class="button" id="logoutButton">Logout</button>
+    </nav>
+</header>
+<main>
+    <article>
+        <section class="createAccount">
+            <h2>Create Account</h2>
+            <form id="registerForm" action="">
+                <label class="usernameLabel" for="username">Username:</label>
+                <input type="text" class="usernameInput" id="username" name="username" aria-label="Enter password">
+                <label class="passwordLabel" for="password">Password:</label>
+                <input type="password" class="passwordInput" id="password" name="password" aria-label="Enter password">
+                <span title="Show/Hide password" aria-label="Show/Hide password" id="showHidePassword" onclick="showHidePasswordFun()">🙉</span>
+                <button type="submit" class="button" id="registerButton" aria-label="Submit">Submit</button>
+            </form>
+        </section>
+        <section>
+            <h2>Status:</h2>
+            <pre id="status">Not logged in.</pre>
+        </section>
+        <section>
+            <h2>Access Token:</h2>
+            <pre id="accessToken">N/A</pre>
+        </section>
+        <section>
+            <h2>API Response:</h2>
+            <pre id="apiResponse">N/A</pre>
+        </section>
+        <section>
+            <h2>Joke & Quote Generator</h2>
+        </section>
+    </article>
+</main>
+<footer>
+    <p>
+        Copyright @ 2025 Azca
+    </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
