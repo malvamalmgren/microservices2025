@@ -1,31 +1,75 @@
 services:
-#  gateway:
-#    image: gateway:0.0.1-SNAPSHOT
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    ports:
-#      - "8080:8081"
-#  resourceserver:
-#    image: resourceserver:0.0.1-SNAPSHOT
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    deploy:
-#      replicas: 2
   postgres:
     image: 'postgres:latest'
-    container_name: 'postgres-user'
+    container_name: 'postgres-user-1'
     environment:
       - 'POSTGRES_DB=userdatabase'
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U myuser -d userdatabase" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  flyway:
+    image: flyway/flyway:latest
+    depends_on:
+      - postgres
+    command: -url=jdbc:postgresql://postgres-user-1:5432/userdatabase -user=myuser -password=secret -locations=filesystem:/flyway/sql migrate
+    volumes:
+     - ./migration:/flyway/sql
+
   auth:
     image: authservice:0.0.1-SNAPSHOT
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - OAUTH2_ISSUER_URI=http://auth:9000
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/userdatabase
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=secret
+    ports:
+      - "9000:9000"
+  joke:
+    image: jokeservice:0.0.1-SNAPSHOT
+    depends_on:
+      - auth
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - OAUTH2_ISSUER_URI=http://auth:9000
+    ports:
+      - "8081:8081"
+  quote:
+    image: quoteservice:0.0.1-SNAPSHOT
+    depends_on:
+      - auth
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - OAUTH2_ISSUER_URI=http://auth:9000
+    ports:
+      - "8082:8082"
+  gateway:
+    image: gateway:0.0.1-SNAPSHOT
+    depends_on:
+      - auth
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - OAUTH2_ISSUER_URI=http://auth:9000
+    ports:
+      - "8000:8000"
+  spa:
+    image: spa:0.0.1-SNAPSHOT
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "9000:9000"
+      - "8888:8888"
+
+
 #  consul:
 #    image: hashicorp/consul
 #    ports:

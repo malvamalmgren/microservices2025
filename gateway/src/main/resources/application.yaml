@@ -1,0 +1,34 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: jokes_random
+            uri: http://localhost:8081
+            predicates:
+              - Path=/jokes/random
+
+          - id: quotes_random
+            uri: http://localhost:8082
+            predicates:
+              - Path=/quotes/random
+
+    consul:
+      enabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG
