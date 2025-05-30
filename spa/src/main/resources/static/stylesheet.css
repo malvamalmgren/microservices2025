@@ -44,6 +44,34 @@ li {
     color: #575757;
 }
 
+/*.comic-button {*/
+/*    display: inline-block;*/
+/*    padding: 8px 12px;*/
+/*    text-align: center;*/
+/*    font-family: Roboto Light, sans-serif;*/
+/*    font-weight: bold;*/
+/*    text-decoration: none;*/
+/*    color: #fff;*/
+/*    border: 2px solid #000;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 5px 5px 0px #000;*/
+/*    transition: all 0.3s ease;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.comic-button:hover {*/
+/*    background-color: #fff;*/
+/*    color: #ff5252;*/
+/*    border: 2px solid #ff5252;*/
+/*    box-shadow: 5px 5px 0px #ff5252;*/
+/*}*/
+
+/*.comic-button:active {*/
+/*    background-color: #fcf414;*/
+/*    box-shadow: none;*/
+/*    transform: translateY(4px);*/
+/*}*/
+
 #loginButton, #logoutButton {
     padding: 8px 12px;
     width: min(75px);
