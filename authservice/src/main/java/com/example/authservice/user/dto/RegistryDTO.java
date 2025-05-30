@@ -1,14 +1,18 @@
-package com.example.authservice;
+package com.example.authservice.user.dto;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class RegistryDTO {
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
-
-    public RegistryDTO() {}
 
     public RegistryDTO(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+    public RegistryDTO() {
     }
 
     public String getUsername() {

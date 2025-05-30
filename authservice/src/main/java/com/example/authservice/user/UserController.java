@@ -1,10 +1,7 @@
 package com.example.authservice.user;
 
 import com.example.authservice.RegistryDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -20,10 +17,10 @@ public class UserController {
 //    }
 
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password) {
+    public String register(@RequestBody RegistryDTO registry) {
         AppUser user = new AppUser();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(registry.getUsername());
+        user.setPassword(registry.getPassword());
         user.setRole((UserRole.ROLE_USER));
         userService.addUser(user);
         return "User registered successfully";
